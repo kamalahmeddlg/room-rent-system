@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room Rent Collection System Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --card: rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.12);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --primary: #38bdf8;
+      --primary-dark: #0ea5e9;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1150px, 92%);
+      margin: auto;
+    }
+
+    .hero {
+      padding: 80px 0 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.3;
+      z-index: 0;
+    }
+
+    .hero::before {
+      width: 240px;
+      height: 240px;
+      background: var(--primary);
+      top: -40px;
+      right: -40px;
+    }
+
+    .hero::after {
+      width: 220px;
+      height: 220px;
+      background: #9333ea;
+      left: -60px;
+      bottom: -40px;
+    }
+
+    .hero-wrap {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.1);
+      color: #bae6fd;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin-bottom: 28px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 22px;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.05);
+      color: white;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .mockup {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dots span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dots span:nth-child(1){ background:#ef4444; }
+    .dots span:nth-child(2){ background:#f59e0b; }
+    .dots span:nth-child(3){ background:#22c55e; }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .mini-card h4 {
+      font-size: 14px;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .mini-card strong {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .mini-table {
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .mini-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: #e2e8f0;
+      font-size: 14px;
+    }
+
+    .mini-row:last-child {
+      border-bottom: none;
+    }
+
+    section {
+      padding: 70px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .section-title span {
+      color: var(--primary);
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      font-size: 15px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-top: 8px;
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      max-width: 760px;
+      margin: auto;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 38px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .features-list {
+      margin-top: 14px;
+      list-style: none;
+    }
+
+    .features-list li {
+      padding: 8px 0;
+      color: #e2e8f0;
+      border-bottom: 1px dashed rgba(255,255,255,0.08);
+      font-size: 0.95rem;
+    }
+
+    .features-list li:last-child {
+      border-bottom: none;
+    }
+
+    .cta {
+      padding-bottom: 90px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(56,189,248,0.14), rgba(147,51,234,0.14));
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 28px;
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 25px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-box h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 14px;
+      font-weight: 800;
+    }
+
+    .cta-box p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .contact-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 26px;
+    }
+
+    .contact-item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.06);
+      margin-bottom: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .contact-item small {
+      display: block;
+      color: #94a3b8;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .contact-item strong,
+    .contact-item a {
+      font-size: 1rem;
+      word-break: break-word;
+    }
+
+    .highlight {
+      display: inline-block;
+      margin-top: 8px;
+      color: #fde68a;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 22px 0;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.7s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 992px) {
+      .hero-wrap,
+      .cta-box,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding-top: 60px;
+      }
+
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card,
+      .contact-card,
+      .cta-box,
+      .mockup {
+        padding: 18px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .hero-btns {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container hero-wrap">
+      <div class="reveal">
+        <div class="badge">🏠 Frontend Demo Project</div>
+        <h1>Room Rent Collection System</h1>
+        <p>
+          A modern, professional, and mobile-friendly frontend demo for landlords,
+          PG owners, hostel managers, and property owners to manage rooms, tenants,
+          rent collection, payment tracking, and receipts digitally.
+        </p>
+        <div class="hero-btns">
+          <a href="#features" class="btn btn-primary">View Features</a>
+          <a href="#contact" class="btn btn-outline">Contact for Full System</a>
+        </div>
+      </div>
+
+      <div class="mockup reveal">
+        <div class="topbar">
+          <div class="dots">
+            <span></span><span></span><span></span>
+          </div>
+          <small style="color:#cbd5e1;">Live Dashboard Preview</small>
+        </div>
+
+        <div class="mini-grid">
+          <div class="mini-card">
+            <h4>Total Rooms</h4>
+            <strong>24</strong>
+          </div>
+          <div class="mini-card">
+            <h4>Occupied Rooms</h4>
+            <strong>18</strong>
+          </div>
+          <div class="mini-card">
+            <h4>Total Tenants</h4>
+            <strong>21</strong>
+          </div>
+          <div class="mini-card">
+            <h4>Monthly Collected</h4>
+            <strong>₹48,500</strong>
+          </div>
+        </div>
+
+        <div class="mini-table">
+          <div class="mini-row"><span>Room 101 - Paid</span><span>₹3,500</span></div>
+          <div class="mini-row"><span>Room 102 - Due</span><span>₹4,000</span></div>
+          <div class="mini-row"><span>Room 201 - Paid</span><span>₹3,800</span></div>
+          <div class="mini-row"><span>Room 202 - Partial</span><span>₹2,000</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="features">
+    <div class="container">
+      <div class="section-title reveal">
+        <span>✨ DEMO FEATURES</span>
+        <h2>What This Frontend Demo Includes</h2>
+        <p>
+          This demo is designed to showcase the layout, interface, and business flow
+          of a professional room rent collection system.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="icon">📊</div>
+          <h3>Professional Dashboard</h3>
+          <p>Clean admin dashboard with room summary, rent overview, and payment highlights.</p>
+          <ul class="features-list">
+            <li>Total rooms overview</li>
+            <li>Occupied / vacant status</li>
+            <li>Monthly rent collection preview</li>
+            <li>Recent payment section</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">👤</div>
+          <h3>Tenant & Room Interface</h3>
+          <p>Structured frontend sections for tenant details, room allocation, and rent records.</p>
+          <ul class="features-list">
+            <li>Tenant information UI</li>
+            <li>Room management interface</li>
+            <li>Easy form layout</li>
+            <li>Professional data cards</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">🧾</div>
+          <h3>Rent Receipt Preview</h3>
+          <p>Modern receipt section to show how payment receipts can look in the final system.</p>
+          <ul class="features-list">
+            <li>Receipt layout preview</li>
+            <li>Payment amount section</li>
+            <li>Month and room details</li>
+            <li>Print-style design concept</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-title reveal">
+        <span>🔥 FULL VERSION FEATURES</span>
+        <h2>Facilities Available in the Complete System</h2>
+        <p>
+          The backend version can be developed with full business features for real-world use.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="icon">🔐</div>
+          <h3>Admin & Management</h3>
+          <ul class="features-list">
+            <li>Secure admin login system</li>
+            <li>Room add / edit / delete</li>
+            <li>Tenant add / edit / delete</li>
+            <li>Auto room occupancy update</li>
+            <li>Tenant checkout system</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">💰</div>
+          <h3>Rent Collection & Dues</h3>
+          <ul class="features-list">
+            <li>Monthly rent collection</li>
+            <li>Paid / partial / unpaid tracking</li>
+            <li>Due and pending alerts</li>
+            <li>Late fine support</li>
+            <li>Advance payment support</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">⚡</div>
+          <h3>Extra Utilities</h3>
+          <ul class="features-list">
+            <li>Electricity charge tracking</li>
+            <li>Water bill support</li>
+            <li>Maintenance charge support</li>
+            <li>Security deposit management</li>
+            <li>Custom extra charge option</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">📈</div>
+          <h3>Reports & History</h3>
+          <ul class="features-list">
+            <li>Monthly collection reports</li>
+            <li>Yearly income reports</li>
+            <li>Tenant payment history</li>
+            <li>Due report</li>
+            <li>Occupancy report</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">📲</div>
+          <h3>Notification & Payment</h3>
+          <ul class="features-list">
+            <li>WhatsApp reminder integration</li>
+            <li>SMS reminder integration</li>
+            <li>UPI / online payment support</li>
+            <li>Receipt generation</li>
+            <li>Print and download receipt</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">📱</div>
+          <h3>Responsive & Professional UI</h3>
+          <ul class="features-list">
+            <li>Mobile-friendly design</li>
+            <li>Tablet-friendly layout</li>
+            <li>Modern admin interface</li>
+            <li>Fast and user-friendly structure</li>
+            <li>Business-ready frontend</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="container">
+      <div class="cta-box reveal">
+        <div>
+          <div class="badge">💼 Need a Complete System?</div>
+          <h2>Contact for Full Working Project</h2>
+          <p>
+            If anyone wants a complete <strong>Room Rent Collection System</strong>
+            with backend, database, admin panel, and business-ready features,
+            they can contact me directly.
+          </p>
+          <p>
+            This frontend demo is only for presentation and GitHub showcase.
+            Full custom development is available on request.
+          </p>
+          <a href="https://wa.me/916001877757" target="_blank" class="btn btn-primary">Contact on WhatsApp</a>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-item">
+            <small>WhatsApp Only</small>
+            <strong><a href="https://wa.me/916001877757" target="_blank">6001877757</a></strong>
+          </div>
+
+          <div class="contact-item">
+            <small>Email</small>
+            <a href="mailto:kamalahmeddlg@gmail.com"><strong>kamalahmeddlg@gmail.com</strong></a>
+          </div>
+
+          <div class="contact-item">
+            <small>Available Services</small>
+            <strong>Frontend Demo, Full Website, Admin Panel, Backend, Database Setup</strong>
+          </div>
+
+          <span class="highlight">Serious inquiries only • Custom systems available</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © 2026 Room Rent Collection System Demo • Designed for GitHub Portfolio Showcase
+    </div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+
+    function showOnScroll() {
+      reveals.forEach((el) => {
+        const top = el.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        if (top < windowHeight - 80) {
+          el.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', showOnScroll);
+    window.addEventListener('load', showOnScroll);
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
