@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Room Rent Collection System Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>RentFlow — Room Rent Collection System | Professional Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -15,688 +16,575 @@
     }
 
     :root {
-      --bg: #0f172a;
-      --bg-soft: #111827;
-      --card: rgba(255,255,255,0.08);
-      --card-border: rgba(255,255,255,0.12);
-      --text: #f8fafc;
-      --muted: #cbd5e1;
+      --bg-deep: #020617;
+      --bg-surface: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.65);
+      --glass-border: rgba(56, 189, 248, 0.2);
       --primary: #38bdf8;
-      --primary-dark: #0ea5e9;
+      --primary-glow: #0ea5e9;
+      --accent: #818cf8;
+      --accent-dark: #6366f1;
       --success: #22c55e;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --shadow: 0 20px 60px rgba(0,0,0,0.25);
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --text-main: #f1f5f9;
+      --text-muted: #cbd5e1;
+      --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      --border-light: 1px solid rgba(148, 163, 184, 0.12);
     }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
-      color: var(--text);
-      line-height: 1.6;
+      background: radial-gradient(circle at 10% 20%, #0b1120, #020617);
+      color: var(--text-main);
+      line-height: 1.5;
+      scroll-behavior: smooth;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      border: var(--border-light);
+      border-radius: 2rem;
     }
 
     .container {
-      width: min(1150px, 92%);
-      margin: auto;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
     }
 
+    /* Hero section */
     .hero {
-      padding: 80px 0 50px;
+      padding: 100px 0 70px;
       position: relative;
       overflow: hidden;
     }
 
-    .hero::before,
-    .hero::after {
-      content: "";
+    .hero-glow {
       position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(56,189,248,0.3), transparent 70%);
+      top: -200px;
+      right: -150px;
       border-radius: 50%;
       filter: blur(70px);
-      opacity: 0.3;
       z-index: 0;
     }
 
-    .hero::before {
-      width: 240px;
-      height: 240px;
-      background: var(--primary);
-      top: -40px;
-      right: -40px;
+    .hero-glow-left {
+      left: -200px;
+      bottom: -100px;
+      top: auto;
+      background: radial-gradient(circle, rgba(129,140,248,0.25), transparent 70%);
     }
 
-    .hero::after {
-      width: 220px;
-      height: 220px;
-      background: #9333ea;
-      left: -60px;
-      bottom: -40px;
-    }
-
-    .hero-wrap {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 30px;
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px;
       align-items: center;
+      position: relative;
+      z-index: 2;
     }
 
-    .badge {
-      display: inline-block;
-      padding: 8px 14px;
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      background: rgba(56, 189, 248, 0.1);
-      color: #bae6fd;
-      border-radius: 999px;
-      font-size: 14px;
+    .hero-content {
+      flex: 1.2;
+    }
+
+    .hero-visual {
+      flex: 1;
+    }
+
+    .badge-modern {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 6px 16px;
+      border-radius: 60px;
       font-weight: 600;
-      margin-bottom: 18px;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+      color: #bae6fd;
+      margin-bottom: 24px;
     }
 
     .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      line-height: 1.1;
-      margin-bottom: 18px;
+      font-size: clamp(2.5rem, 6vw, 4.2rem);
       font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #fff, #94a3f8, #38bdf8);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
     }
 
     .hero p {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 700px;
-      margin-bottom: 28px;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 580px;
+      margin-bottom: 32px;
     }
 
-    .hero-btns {
+    .btn-group {
       display: flex;
-      gap: 14px;
       flex-wrap: wrap;
+      gap: 18px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      padding: 14px 22px;
-      border-radius: 14px;
+      gap: 12px;
+      padding: 12px 28px;
       font-weight: 700;
-      transition: 0.3s ease;
+      border-radius: 40px;
+      transition: 0.25s ease;
+      font-size: 0.95rem;
       cursor: pointer;
       border: none;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      box-shadow: var(--shadow);
+      background: linear-gradient(105deg, var(--primary), var(--accent));
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
+      color: #0f172a;
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(56, 189, 248, 0.4);
     }
 
     .btn-outline {
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.05);
-      color: white;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(4px);
     }
 
     .btn-outline:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--primary);
     }
 
-    .mockup {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 22px;
-      box-shadow: var(--shadow);
+    /* Dashboard mockup */
+    .dashboard-card {
+      background: rgba(2, 6, 23, 0.65);
       backdrop-filter: blur(16px);
+      border-radius: 32px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 24px;
+      box-shadow: var(--shadow-xl);
+      transition: all 0.3s;
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .dots {
-      display: flex;
-      gap: 8px;
-    }
-
-    .dots span {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .dots span:nth-child(1){ background:#ef4444; }
-    .dots span:nth-child(2){ background:#f59e0b; }
-    .dots span:nth-child(3){ background:#22c55e; }
-
-    .mini-grid {
+    .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-bottom: 16px;
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
-    .mini-card {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 16px;
-      padding: 16px;
+    .stat-tile {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 24px;
+      padding: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
     }
 
-    .mini-card h4 {
-      font-size: 14px;
-      color: #cbd5e1;
+    .stat-tile h4 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #94a3b8;
       margin-bottom: 8px;
-      font-weight: 500;
     }
 
-    .mini-card strong {
-      font-size: 1.5rem;
+    .stat-number {
+      font-size: 2rem;
       font-weight: 800;
+      color: white;
     }
 
-    .mini-table {
-      background: rgba(255,255,255,0.06);
-      border-radius: 16px;
-      padding: 14px;
+    .recent-list {
+      margin-top: 12px;
     }
 
-    .mini-row {
+    .list-item {
       display: flex;
       justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      color: #e2e8f0;
-      font-size: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      font-size: 0.9rem;
     }
 
-    .mini-row:last-child {
-      border-bottom: none;
-    }
-
-    section {
-      padding: 70px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 18px;
-    }
-
-    .section-title span {
-      color: var(--primary);
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      font-size: 15px;
-    }
-
-    .section-title h2 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      margin-top: 8px;
-      margin-bottom: 12px;
-      font-weight: 800;
-    }
-
-    .section-title p {
-      color: var(--muted);
-      max-width: 760px;
-      margin: auto;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-      margin-top: 38px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 22px;
-      padding: 24px;
-      backdrop-filter: blur(12px);
-      transition: 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(56, 189, 248, 0.4);
-    }
-
-    .icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      font-size: 24px;
-      margin-bottom: 16px;
-      background: rgba(56, 189, 248, 0.14);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-    }
-
-    .card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .features-list {
-      margin-top: 14px;
-      list-style: none;
-    }
-
-    .features-list li {
-      padding: 8px 0;
-      color: #e2e8f0;
-      border-bottom: 1px dashed rgba(255,255,255,0.08);
-      font-size: 0.95rem;
-    }
-
-    .features-list li:last-child {
-      border-bottom: none;
-    }
-
-    .cta {
-      padding-bottom: 90px;
-    }
-
-    .cta-box {
-      background: linear-gradient(135deg, rgba(56,189,248,0.14), rgba(147,51,234,0.14));
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 28px;
-      padding: 36px;
-      display: grid;
-      grid-template-columns: 1fr 0.9fr;
-      gap: 25px;
-      align-items: center;
-      box-shadow: var(--shadow);
-    }
-
-    .cta-box h2 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      margin-bottom: 14px;
-      font-weight: 800;
-    }
-
-    .cta-box p {
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-
-    .contact-card {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 24px;
-      padding: 26px;
-    }
-
-    .contact-item {
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.06);
-      margin-bottom: 14px;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .contact-item small {
-      display: block;
-      color: #94a3b8;
-      margin-bottom: 6px;
-      font-size: 13px;
-    }
-
-    .contact-item strong,
-    .contact-item a {
-      font-size: 1rem;
-      word-break: break-word;
-    }
-
-    .highlight {
-      display: inline-block;
-      margin-top: 8px;
-      color: #fde68a;
-      font-size: 14px;
+    .status-paid {
+      color: var(--success);
       font-weight: 600;
+    }
+    .status-due {
+      color: var(--warning);
+    }
+
+    /* section style */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 50px;
+    }
+
+    .section-header .overline {
+      color: var(--primary);
+      font-weight: 600;
+      letter-spacing: 2px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      margin-top: 12px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 28px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      border-radius: 28px;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-6px);
+      background: rgba(30, 41, 59, 0.8);
+    }
+
+    .icon-lg {
+      font-size: 2rem;
+      background: linear-gradient(145deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+
+    .feature-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-top: 18px;
+    }
+
+    .feature-list li {
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .feature-list li i {
+      color: var(--primary);
+      font-size: 0.85rem;
+    }
+
+    /* CTA Section */
+    .cta-wrapper {
+      background: linear-gradient(125deg, rgba(56, 189, 248, 0.15), rgba(99, 102, 241, 0.1));
+      border-radius: 48px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 48px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cta-left {
+      flex: 1.2;
+    }
+
+    .cta-right {
+      flex: 0.9;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 32px;
+      padding: 32px;
+      backdrop-filter: blur(10px);
+    }
+
+    .contact-method {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .contact-method small {
+      color: #94a3b8;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+    }
+
+    .contact-method a, .contact-method strong {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+      text-decoration: none;
+    }
+
+    .badge-gold {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      border-left: 3px solid #f59e0b;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      margin-top: 16px;
     }
 
     footer {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 22px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 32px 0;
       text-align: center;
-      color: #94a3b8;
-      font-size: 14px;
-      background: rgba(255,255,255,0.03);
+      color: #64748b;
+    }
+
+    @media (max-width: 860px) {
+      .container {
+        padding: 0 24px;
+      }
+      .hero-grid {
+        flex-direction: column;
+      }
+      .cta-wrapper {
+        flex-direction: column;
+      }
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
-      transition: all 0.7s ease;
+      transform: translateY(30px);
+      transition: 0.6s ease;
     }
-
     .reveal.active {
       opacity: 1;
       transform: translateY(0);
-    }
-
-    @media (max-width: 992px) {
-      .hero-wrap,
-      .cta-box,
-      .grid-3 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .hero {
-        padding-top: 60px;
-      }
-
-      .mini-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card,
-      .contact-card,
-      .cta-box,
-      .mockup {
-        padding: 18px;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .hero-btns {
-        flex-direction: column;
-      }
     }
   </style>
 </head>
 <body>
 
-  <header class="hero">
-    <div class="container hero-wrap">
-      <div class="reveal">
-        <div class="badge">🏠 Frontend Demo Project</div>
-        <h1>Room Rent Collection System</h1>
-        <p>
-          A modern, professional, and mobile-friendly frontend demo for landlords,
-          PG owners, hostel managers, and property owners to manage rooms, tenants,
-          rent collection, payment tracking, and receipts digitally.
-        </p>
-        <div class="hero-btns">
-          <a href="#features" class="btn btn-primary">View Features</a>
-          <a href="#contact" class="btn btn-outline">Contact for Full System</a>
-        </div>
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow hero-glow-left"></div>
+  <div class="container hero-grid">
+    <div class="hero-content reveal">
+      <div class="badge-modern">
+        <i class="fas fa-building"></i> <span>Smart Property Management</span>
       </div>
-
-      <div class="mockup reveal">
-        <div class="topbar">
-          <div class="dots">
-            <span></span><span></span><span></span>
-          </div>
-          <small style="color:#cbd5e1;">Live Dashboard Preview</small>
+      <h1>Room Rent Collection<br> <span style="background: linear-gradient(135deg, #facc15, #38bdf8); background-clip: text; -webkit-background-clip: text; color: transparent;">Intelligence & Automation</span></h1>
+      <p>Enterprise-grade rent collection dashboard for landlords, PG owners, and hostel managers. Track dues, generate receipts, and streamline occupancy — all in one beautiful interface.</p>
+      <div class="btn-group">
+        <a href="#features-core" class="btn btn-primary"><i class="fas fa-star"></i> Explore Features</a>
+        <a href="#contact-section" class="btn btn-outline"><i class="fab fa-whatsapp"></i> Get Full System</a>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="dashboard-card">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 18px;">
+          <div><i class="fas fa-chart-line" style="color: #38bdf8;"></i> <span style="font-weight: 600;">RentFlow Dashboard</span></div>
+          <div><i class="fas fa-ellipsis-h"></i></div>
         </div>
-
-        <div class="mini-grid">
-          <div class="mini-card">
-            <h4>Total Rooms</h4>
-            <strong>24</strong>
-          </div>
-          <div class="mini-card">
-            <h4>Occupied Rooms</h4>
-            <strong>18</strong>
-          </div>
-          <div class="mini-card">
-            <h4>Total Tenants</h4>
-            <strong>21</strong>
-          </div>
-          <div class="mini-card">
-            <h4>Monthly Collected</h4>
-            <strong>₹48,500</strong>
-          </div>
+        <div class="stats-grid">
+          <div class="stat-tile"><h4>Total Rooms</h4><div class="stat-number">36</div></div>
+          <div class="stat-tile"><h4>Occupied</h4><div class="stat-number">28</div></div>
+          <div class="stat-tile"><h4>Tenants</h4><div class="stat-number">32</div></div>
+          <div class="stat-tile"><h4>Monthly Collection</h4><div class="stat-number">₹68.2K</div></div>
         </div>
-
-        <div class="mini-table">
-          <div class="mini-row"><span>Room 101 - Paid</span><span>₹3,500</span></div>
-          <div class="mini-row"><span>Room 102 - Due</span><span>₹4,000</span></div>
-          <div class="mini-row"><span>Room 201 - Paid</span><span>₹3,800</span></div>
-          <div class="mini-row"><span>Room 202 - Partial</span><span>₹2,000</span></div>
+        <div class="recent-list">
+          <div class="list-item"><span><i class="fas fa-door-open"></i> Room 204 · Ramesh K.</span><span class="status-paid"><i class="fas fa-check-circle"></i> ₹4,200 Paid</span></div>
+          <div class="list-item"><span><i class="fas fa-door-open"></i> Room 107 · Priya S.</span><span class="status-due"><i class="fas fa-clock"></i> ₹3,800 Due</span></div>
+          <div class="list-item"><span><i class="fas fa-door-open"></i> Room 305 · Ankit V.</span><span class="status-paid"><i class="fas fa-check-circle"></i> ₹5,500 Paid</span></div>
+          <div class="list-item"><span><i class="fas fa-door-open"></i> Room 112 · Sneha M.</span><span>₹2,000 Partial</span></div>
         </div>
       </div>
     </div>
-  </header>
+  </div>
+</div>
 
-  <section id="features">
-    <div class="container">
-      <div class="section-title reveal">
-        <span>✨ DEMO FEATURES</span>
-        <h2>What This Frontend Demo Includes</h2>
-        <p>
-          This demo is designed to showcase the layout, interface, and business flow
-          of a professional room rent collection system.
-        </p>
+<section class="section" id="features-core">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="overline"><i class="fas fa-crown"></i> premium interface</div>
+      <h2>Designed for modern landlords & property managers</h2>
+      <p style="color: var(--text-muted);">Complete frontend demo with interactive preview — scalable backend ready architecture.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="icon-lg"><i class="fas fa-tachometer-alt"></i></div>
+        <h3>Pro Analytics Dashboard</h3>
+        <p>Real-time insights into rent collection, occupancy trends, and monthly performance metrics.</p>
+        <ul class="feature-list">
+          <li><i class="fas fa-chart-pie"></i> Occupancy ratio charts</li>
+          <li><i class="fas fa-wallet"></i> Monthly vs pending rent</li>
+          <li><i class="fas fa-bell"></i> Smart due alerts</li>
+        </ul>
       </div>
+      <div class="feature-card reveal">
+        <div class="icon-lg"><i class="fas fa-users"></i></div>
+        <h3>Tenant & Room Matrix</h3>
+        <p>Centralized tenant directory, room assignment, and lease tracking with beautiful card layouts.</p>
+        <ul class="feature-list">
+          <li><i class="fas fa-id-card"></i> Digital tenant profile</li>
+          <li><i class="fas fa-bed"></i> Room change history</li>
+          <li><i class="fas fa-file-signature"></i> Agreement preview</li>
+        </ul>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon-lg"><i class="fas fa-receipt"></i></div>
+        <h3>Smart Receipt Engine</h3>
+        <p>Generate professional rent receipts with custom fields, print-ready & downloadable format.</p>
+        <ul class="feature-list">
+          <li><i class="fas fa-print"></i> One-click print receipt</li>
+          <li><i class="fas fa-calendar-alt"></i> Month-wise statement</li>
+          <li><i class="fas fa-qrcode"></i> UPI QR ready</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="grid-3">
-        <div class="card reveal">
-          <div class="icon">📊</div>
-          <h3>Professional Dashboard</h3>
-          <p>Clean admin dashboard with room summary, rent overview, and payment highlights.</p>
-          <ul class="features-list">
-            <li>Total rooms overview</li>
-            <li>Occupied / vacant status</li>
-            <li>Monthly rent collection preview</li>
-            <li>Recent payment section</li>
-          </ul>
+<section class="section" style="background: radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.08), transparent);">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="overline"><i class="fas fa-rocket"></i> full business suite</div>
+      <h2>Everything you need in the complete system</h2>
+      <p>Backend-ready, database-driven, and fully customizable for real estate businesses.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card reveal"><div class="icon-lg"><i class="fas fa-shield-alt"></i></div><h3>Admin + Roles</h3><ul class="feature-list"><li><i class="fas fa-user-shield"></i> Secure multi-admin login</li><li><i class="fas fa-edit"></i> Full CRUD: rooms, tenants, owners</li><li><i class="fas fa-exchange-alt"></i> Automatic occupancy sync</li></ul></div>
+      <div class="feature-card reveal"><div class="icon-lg"><i class="fas fa-coins"></i></div><h3>Rent & Dues Tracker</h3><ul class="feature-list"><li><i class="fas fa-credit-card"></i> Paid / Partial / Overdue status</li><li><i class="fas fa-exclamation-triangle"></i> Late fee & penalty logic</li><li><i class="fas fa-hand-holding-usd"></i> Advance rent support</li></ul></div>
+      <div class="feature-card reveal"><div class="icon-lg"><i class="fas fa-charging-station"></i></div><h3>Utility Bills Integration</h3><ul class="feature-list"><li><i class="fas fa-bolt"></i> Electricity & water bill</li><li><i class="fas fa-wrench"></i> Maintenance charges</li><li><i class="fas fa-shield-alt"></i> Security deposit ledger</li></ul></div>
+      <div class="feature-card reveal"><div class="icon-lg"><i class="fas fa-chart-line"></i></div><h3>Reports & Analytics</h3><ul class="feature-list"><li><i class="fas fa-chart-bar"></i> Monthly/yearly income report</li><li><i class="fas fa-list-ul"></i> Dues aging report</li><li><i class="fas fa-building"></i> Vacancy report</li></ul></div>
+      <div class="feature-card reveal"><div class="icon-lg"><i class="fab fa-whatsapp"></i></div><h3>Automated Notifications</h3><ul class="feature-list"><li><i class="fab fa-whatsapp"></i> WhatsApp rent reminders</li><li><i class="fas fa-sms"></i> SMS gateway ready</li><li><i class="fas fa-envelope"></i> Email receipt delivery</li></ul></div>
+      <div class="feature-card reveal"><div class="icon-lg"><i class="fas fa-mobile-alt"></i></div><h3>Fully Responsive UI</h3><ul class="feature-list"><li><i class="fas fa-tablet-alt"></i> Seamless on tablet & mobile</li><li><i class="fas fa-tachometer-alt"></i> Dark/Light ready design</li><li><i class="fas fa-globe"></i> PWA ready architecture</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact-section">
+  <div class="container">
+    <div class="cta-wrapper reveal">
+      <div class="cta-left">
+        <div class="badge-modern" style="background: rgba(245,158,11,0.2);"><i class="fas fa-code-branch"></i> Complete project ready</div>
+        <h2 style="font-size: clamp(1.8rem,4vw,2.5rem); font-weight: 800; margin: 20px 0 15px;">Get the Full Stack <br>Room Rent Collection System</h2>
+        <p style="color: #cbd5e1;">This frontend demo is part of a complete commercial solution. If you need backend, database, admin panel, tenant portal, and full automation — contact me for custom development, deployment, and white-label licensing.</p>
+        <div class="btn-group" style="margin-top: 28px;">
+          <a href="https://wa.me/916001877757" target="_blank" class="btn btn-primary"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+          <a href="mailto:kamalahmeddlg@gmail.com" class="btn btn-outline"><i class="far fa-envelope"></i> Send Email</a>
         </div>
-
-        <div class="card reveal">
-          <div class="icon">👤</div>
-          <h3>Tenant & Room Interface</h3>
-          <p>Structured frontend sections for tenant details, room allocation, and rent records.</p>
-          <ul class="features-list">
-            <li>Tenant information UI</li>
-            <li>Room management interface</li>
-            <li>Easy form layout</li>
-            <li>Professional data cards</li>
-          </ul>
+      </div>
+      <div class="cta-right">
+        <div class="contact-method">
+          <small><i class="fab fa-whatsapp"></i> DIRECT LINE (WHATSAPP)</small>
+          <div><a href="https://wa.me/916001877757" target="_blank" style="font-size: 1.4rem;">+91 6001877757</a></div>
         </div>
-
-        <div class="card reveal">
-          <div class="icon">🧾</div>
-          <h3>Rent Receipt Preview</h3>
-          <p>Modern receipt section to show how payment receipts can look in the final system.</p>
-          <ul class="features-list">
-            <li>Receipt layout preview</li>
-            <li>Payment amount section</li>
-            <li>Month and room details</li>
-            <li>Print-style design concept</li>
-          </ul>
+        <div class="contact-method">
+          <small><i class="far fa-envelope"></i> BUSINESS EMAIL</small>
+          <div><strong>kamalahmeddlg@gmail.com</strong></div>
+        </div>
+        <div class="contact-method">
+          <small><i class="fas fa-cogs"></i> SERVICES</small>
+          <div><strong>Custom Admin Panel • API Development • Database Architecture • Deployment</strong></div>
+        </div>
+        <div class="badge-gold">
+          <i class="fas fa-gem"></i> Serious inquiries only | Quick turnaround | Production-ready code
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <div class="container">
-      <div class="section-title reveal">
-        <span>🔥 FULL VERSION FEATURES</span>
-        <h2>Facilities Available in the Complete System</h2>
-        <p>
-          The backend version can be developed with full business features for real-world use.
-        </p>
-      </div>
-
-      <div class="grid-3">
-        <div class="card reveal">
-          <div class="icon">🔐</div>
-          <h3>Admin & Management</h3>
-          <ul class="features-list">
-            <li>Secure admin login system</li>
-            <li>Room add / edit / delete</li>
-            <li>Tenant add / edit / delete</li>
-            <li>Auto room occupancy update</li>
-            <li>Tenant checkout system</li>
-          </ul>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">💰</div>
-          <h3>Rent Collection & Dues</h3>
-          <ul class="features-list">
-            <li>Monthly rent collection</li>
-            <li>Paid / partial / unpaid tracking</li>
-            <li>Due and pending alerts</li>
-            <li>Late fine support</li>
-            <li>Advance payment support</li>
-          </ul>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">⚡</div>
-          <h3>Extra Utilities</h3>
-          <ul class="features-list">
-            <li>Electricity charge tracking</li>
-            <li>Water bill support</li>
-            <li>Maintenance charge support</li>
-            <li>Security deposit management</li>
-            <li>Custom extra charge option</li>
-          </ul>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">📈</div>
-          <h3>Reports & History</h3>
-          <ul class="features-list">
-            <li>Monthly collection reports</li>
-            <li>Yearly income reports</li>
-            <li>Tenant payment history</li>
-            <li>Due report</li>
-            <li>Occupancy report</li>
-          </ul>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">📲</div>
-          <h3>Notification & Payment</h3>
-          <ul class="features-list">
-            <li>WhatsApp reminder integration</li>
-            <li>SMS reminder integration</li>
-            <li>UPI / online payment support</li>
-            <li>Receipt generation</li>
-            <li>Print and download receipt</li>
-          </ul>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">📱</div>
-          <h3>Responsive & Professional UI</h3>
-          <ul class="features-list">
-            <li>Mobile-friendly design</li>
-            <li>Tablet-friendly layout</li>
-            <li>Modern admin interface</li>
-            <li>Fast and user-friendly structure</li>
-            <li>Business-ready frontend</li>
-          </ul>
-        </div>
-      </div>
+<footer>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-items: center;">
+      <span>© 2026 RentFlow — Room Rent Collection System | Next-Gen Property Management Demo</span>
+      <span style="display: flex; gap: 20px;"><i class="fab fa-github"></i> Portfolio showcase <i class="fas fa-code"></i> Full version available</span>
     </div>
-  </section>
+  </div>
+</footer>
 
-  <section class="cta" id="contact">
-    <div class="container">
-      <div class="cta-box reveal">
-        <div>
-          <div class="badge">💼 Need a Complete System?</div>
-          <h2>Contact for Full Working Project</h2>
-          <p>
-            If anyone wants a complete <strong>Room Rent Collection System</strong>
-            with backend, database, admin panel, and business-ready features,
-            they can contact me directly.
-          </p>
-          <p>
-            This frontend demo is only for presentation and GitHub showcase.
-            Full custom development is available on request.
-          </p>
-          <a href="https://wa.me/916001877757" target="_blank" class="btn btn-primary">Contact on WhatsApp</a>
-        </div>
-
-        <div class="contact-card">
-          <div class="contact-item">
-            <small>WhatsApp Only</small>
-            <strong><a href="https://wa.me/916001877757" target="_blank">6001877757</a></strong>
-          </div>
-
-          <div class="contact-item">
-            <small>Email</small>
-            <a href="mailto:kamalahmeddlg@gmail.com"><strong>kamalahmeddlg@gmail.com</strong></a>
-          </div>
-
-          <div class="contact-item">
-            <small>Available Services</small>
-            <strong>Frontend Demo, Full Website, Admin Panel, Backend, Database Setup</strong>
-          </div>
-
-          <span class="highlight">Serious inquiries only • Custom systems available</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="container">
-      © 2026 Room Rent Collection System Demo • Designed for GitHub Portfolio Showcase
-    </div>
-  </footer>
-
-  <script>
-    const reveals = document.querySelectorAll('.reveal');
-
-    function showOnScroll() {
-      reveals.forEach((el) => {
-        const top = el.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        if (top < windowHeight - 80) {
-          el.classList.add('active');
-        }
-      });
-    }
-
-    window.addEventListener('scroll', showOnScroll);
-    window.addEventListener('load', showOnScroll);
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
+<script>
+  // Reveal animations on scroll
+  const revealElements = document.querySelectorAll('.reveal');
+  function handleReveal() {
+    revealElements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      if (rect.top < windowHeight - 80) {
+        el.classList.add('active');
+      }
     });
-  </script>
+  }
+  window.addEventListener('load', handleReveal);
+  window.addEventListener('scroll', handleReveal);
+  
+  // Smooth anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === "#" || targetId === "") return;
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+  
+  // Dynamic hover effects on dashboard card ( subtle )
+  const dashboard = document.querySelector('.dashboard-card');
+  if(dashboard) {
+    dashboard.addEventListener('mousemove', (e) => {
+      const rect = dashboard.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      dashboard.style.transform = `perspective(800px) rotateX(${(y - 0.5) * 4}deg) rotateY(${(x - 0.5) * 4}deg) translateY(-2px)`;
+      dashboard.style.transition = '0.1s';
+    });
+    dashboard.addEventListener('mouseleave', () => {
+      dashboard.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      dashboard.style.transition = '0.4s';
+    });
+  }
+</script>
 </body>
 </html>
